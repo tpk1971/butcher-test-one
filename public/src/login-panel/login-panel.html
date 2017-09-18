@@ -1,29 +1,90 @@
-<link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="shared-styles.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../shared-styles.html">
+<link rel="import" href="../../bower_components/paper-userpicture/paper-userpicture.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 
-<dom-module id="my-view1">
+<dom-module id="login-panel">
     <template>
         <style include="shared-styles">
             :host {
-                display: block;
 
+                display: block;
                 padding: 10px;
+
+            }
+
+            :host[hidden] {
+                display: none;
             }
         </style>
 
         <div class="card">
-            <div class="circle">1</div>
-            <h1>View One</h1>
-            <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
-            <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+            <div><paper-userpicture show-name [[image]] user-name="[[user.displayName]]" user-id="[[user.displayName]]"></paper-userpicture></div>
+            <paper-button on-tap="doLogout">Logout</paper-button>
         </div>
     </template>
 
     <script>
-        class MyView1 extends Polymer.Element {
-            static get is() { return 'my-view1'; }
+        class LoginPanel extends Polymer.Element {
+            static get is() { return 'login-panel'; }
+            static get properties() {
+
+                return{
+
+                    user: {
+
+                        type: Object,
+                        reflectToAttribute: true,
+                        value: {displayName: "PK",
+                            photoURL: "https://www.askideas.com/media/48/Hey-You-Guys-Funny-Donald-Trump-Meme-Picture.jpg"
+                        }
+
+                    },
+
+                    hidden: {
+                        type: Boolean,
+                        computed: "showUser(user)"
+                    },
+
+                    image: {
+                        type: String,
+                        computed: "showImage(user)"
+                    }
+
+                }
+
+            }
+
+            showUser(account){
+
+                if(account){
+
+                    return false;
+
+                }else{
+
+                    return true;
+
+                }
+
+            }
+
+            showImage(img){
+
+                if(img.photoURL){
+
+                    return "image='" + this.user.photoURL + "'";
+
+                }else{
+
+                    return "";
+
+                }
+
+            }
+
         }
 
-        window.customElements.define(MyView1.is, MyView1);
+        window.customElements.define(LoginPanel.is, LoginPanel);
     </script>
 </dom-module>
