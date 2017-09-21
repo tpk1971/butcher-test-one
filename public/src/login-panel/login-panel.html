@@ -1,7 +1,9 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../shared-styles.html">
-<link rel="import" href="../../bower_components/paper-userpicture/paper-userpicture.html">
+<link rel="import" href="../../bower_components/paper-avatar/paper-avatar.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
 
 <dom-module id="login-panel">
     <template>
@@ -18,26 +20,41 @@
             }
         </style>
 
-        <div class="card">
-            <div><paper-userpicture show-name [[image]] user-name="[[user.displayName]]" user-id="[[user.displayName]]"></paper-userpicture></div>
-            <paper-button on-tap="doLogout">Logout</paper-button>
-        </div>
+        <template is="dom-if" if="{{user}}">
+
+            <div class="infocard" style="color: white; background-color: #1b5e20;">
+                <paper-icon-item>
+                    <div item-icon slot="item-icon">
+                        <paper-avatar label="[[user.displayName]]" src="[[user.photoURL]]"></paper-avatar>
+                    </div>
+                    <paper-item-body two-line>
+                        <div style="font-size: small">[[user.displayName]]</div>
+                        <div secondary style="font-size: smaller">[[user.email]]</div>
+                    </paper-item-body>
+                </paper-icon-item>
+                <div style="background-color: #3c3c3c">
+                    <paper-button on-tap="doLogout">Logout</paper-button>
+                </div>
+            </div>
+        </template>
+
     </template>
 
     <script>
         class LoginPanel extends Polymer.Element {
-            static get is() { return 'login-panel'; }
+            static get is() {
+                return 'login-panel';
+            }
+
             static get properties() {
 
-                return{
+                return {
 
                     user: {
 
                         type: Object,
                         reflectToAttribute: true,
-                        value: {displayName: "PK",
-                            photoURL: "https://www.askideas.com/media/48/Hey-You-Guys-Funny-Donald-Trump-Meme-Picture.jpg"
-                        }
+                        notify: true
 
                     },
 
@@ -46,22 +63,18 @@
                         computed: "showUser(user)"
                     },
 
-                    image: {
-                        type: String,
-                        computed: "showImage(user)"
-                    }
 
                 }
 
             }
 
-            showUser(account){
+            showUser(account) {
 
-                if(account){
+                if (account) {
 
                     return false;
 
-                }else{
+                } else {
 
                     return true;
 
@@ -69,21 +82,9 @@
 
             }
 
-            showImage(img){
-
-                if(img.photoURL){
-
-                    return "image='" + this.user.photoURL + "'";
-
-                }else{
-
-                    return "";
-
-                }
-
-            }
 
         }
+
 
         window.customElements.define(LoginPanel.is, LoginPanel);
     </script>

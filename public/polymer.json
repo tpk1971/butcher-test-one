@@ -6,7 +6,8 @@
     "src/my-view2.html",
     "src/my-view3.html",
     "src/my-view404.html",
-    "src/login-panel/login-panel.html"
+    "src/login-panel/login-panel.html",
+    "src/my-login-pages/my-login-pages.html"
   ],
   "sources": [
     "src/**/*",
